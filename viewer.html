@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Details</title>
+    <!-- Include Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Simple font */
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        /* Hide detail blocks by default */
+        .detail-block {
+            display: none;
+        }
+    </style>
+</head>
+<!-- This is the 'viewer' page with the blue background -->
+<body class="min-h-screen bg-blue-50 p-4 sm:p-8 flex items-center justify-center">
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-10 max-w-lg w-full border-4 border-blue-400">
+        <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">
+            Personal Details
+        </h1>
+        
+        <div class="space-y-5">
+            <!-- Name Block -->
+            <div id="name-block" class="detail-block">
+                <span class="block text-sm font-medium text-gray-500">Full Name</span>
+                <p id="name-value" class="text-lg font-semibold text-gray-800"></p>
+            </div>
+            
+            <!-- Mobile Block -->
+            <div id="mobile-block" class="detail-block">
+                <span class="block text-sm font-medium text-gray-500">Mobile Number</span>
+                <p id="mobile-value" class="text-lg font-semibold text-gray-800"></p>
+            </div>
+            
+            <!-- Email Block -->
+            <div id="email-block" class="detail-block">
+                <span class="block text-sm font-medium text-gray-500">Email Address</span>
+                <p id="email-value" class="text-lg font-semibold text-gray-800 break-words"></p>
+            </div>
+            
+            <!-- Blood Group Block -->
+            <div id="bloodGroup-block" class="detail-block">
+                <span class="block text-sm font-medium text-gray-500">Blood Group</span>
+                <p id="bloodGroup-value" class="text-lg font-semibold text-gray-800"></p>
+            </div>
+            
+            <!-- Other Details Block -->
+            <div id="otherDetails-block" class="detail-block">
+                <span class="block text-sm font-medium text-gray-500">Other Details</span>
+                <p id="otherDetails-value" class="text-lg font-semibold text-gray-800 break-words"></p>
+            </div>
+
+            <!-- Placeholder if no details are found -->
+            <div id="no-details-block" class="detail-block">
+                <p class="text-lg font-semibold text-gray-500 text-center">No details provided.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // This script runs after the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get the query parameters from the URL
+            const params = new URLSearchParams(window.location.search);
+            
+            const details = {
+                name: params.get('name'),
+                mobile: params.get('mobile'),
+                email: params.get('email'),
+                bloodGroup: params.get('bloodGroup'),
+                otherDetails: params.get('otherDetails')
+            };
+
+            let detailsFound = false;
+
+            // This function finds the HTML element and its parent block.
+            // If data exists, it fills the element and shows the block.
+            function setDetail(key) {
+                const value = details[key];
+                if (value) {
+                    const valueElement = document.getElementById(`${key}-value`);
+                    const blockElement = document.getElementById(`${key}-block`);
+                    if (valueElement && blockElement) {
+                        valueElement.textContent = value;
+                        blockElement.style.display = 'block';
+                        detailsFound = true;
+                    }
+                }
+            }
+
+            // Set all the details
+            setDetail('name');
+            setDetail('mobile');
+            setDetail('email');
+            setDetail('bloodGroup');
+            setDetail('otherDetails');
+
+            // If no details were found in the URL, show a message
+            if (!detailsFound) {
+                document.getElementById('no-details-block').style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+</html>
